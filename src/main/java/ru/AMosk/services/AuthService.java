@@ -1,7 +1,6 @@
 package ru.AMosk.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.AMosk.exception.AuthException;
 import ru.AMosk.security.JwtProvider;
-import ru.AMosk.dto.AuthRequest;
-import ru.AMosk.dto.AuthResponse;
+import ru.AMosk.security.dto.AuthRequest;
+import ru.AMosk.security.dto.AuthResponse;
 
 @Slf4j
 @Service
@@ -24,7 +23,16 @@ public class AuthService {
     private final TokenInMemory tokenInMemory;
 
     public AuthResponse login(AuthRequest authRequest) {
+        Authentication authentication = getAuthentication(authRequest);
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        final String authToken = jwtProvider.generateToken(user);
+        //todo redis
+        tokenInMemory.addTokenUser(authToken,user);
+        log.info("получен токен для '{}'", user.getUsername());
+        return new AuthResponse(authToken);
+    }
 
+    private Authentication getAuthentication(AuthRequest authRequest) {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -35,11 +43,6 @@ public class AuthService {
             //todo id
             throw new AuthException("Имя или пароль неправильны", id);
         }
-        UserDetails user = (UserDetails) authentication.getPrincipal();
-        final String authToken = jwtProvider.generateToken(user);
-        //todo redis
-        tokenInMemory.addTokenUser(authToken,user);
-        log.info("получен токен для '{}'", user.getUsername());
-        return new AuthResponse(authToken);
+        return authentication;
     }
 }

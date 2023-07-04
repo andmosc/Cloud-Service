@@ -22,8 +22,8 @@ public class CloudController {
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
-    public List<FileInfoDto> user(Authentication authentication) {
+    public String user(Authentication authentication) {
         cloudService.getFile();
-        return null;
+        return "list";
     }
 }

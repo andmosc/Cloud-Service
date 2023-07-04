@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import ru.AMosk.services.TokenInMemory;
+import ru.AMosk.security.JwtProvider;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtFilter extends GenericFilterBean {
     private static final String AUTHORIZATION = "Authorization";
-    private final TokenInMemory tokenInMemory;
+    private final JwtProvider jwtProvider;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
@@ -35,9 +35,8 @@ public class JwtFilter extends GenericFilterBean {
             return;
         }
 //todo redis
-        UserDetails user = tokenInMemory.getUserByToken(token);
+        UserDetails user = jwtProvider.validateToken(token);
         if (user == null) {
-            log.warn("There is no user with such a token '{}'", token);
             fc.doFilter(request, response);
             return;
         }

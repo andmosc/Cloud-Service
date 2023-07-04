@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+
+  db:
+    image: postgres:14.1-alpine
+    container_name: postgreSQL
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: cloud
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - /opt/psql/dada:/var/lib/postgresql/data
+
+  app:
+    build: ./
+    image: cloud:latest
+    container_name: cloudService
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/cloud?currentSchema=cloud
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_LIQUIBASE_URL: jdbc:postgresql://db:5432/cloud
+      SPRING_LIQUIBASE_USER: postgres
+      SPRING_LIQUIBASE_PASSWORD: 12345678
+    volumes:
+      - /app/logs:/app/logs
+    depends_on:
+      - db

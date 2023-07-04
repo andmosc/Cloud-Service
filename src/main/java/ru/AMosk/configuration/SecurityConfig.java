@@ -16,6 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.AMosk.filter.JwtFilter;
+import ru.AMosk.services.CustomLogoutHandler;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -28,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
     private final JwtFilter jwtFilter;
+    private final CustomLogoutHandler logoutHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -54,9 +56,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                     .authorizeRequests()
+                     .antMatchers("/login").permitAll()
+                .and()
+                .logout()
+                    .permitAll().addLogoutHandler(logoutHandler)
+                .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

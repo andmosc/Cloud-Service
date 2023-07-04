@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_tag_v001
+      author: AMosk
+  - include:
+      file: 01_create_schema.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 02_create_table_users.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 03_insert_values_user.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 04_create_table_authorities.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 05_insert_value_authorities.sql
+      relativeToChangelogFile: true
