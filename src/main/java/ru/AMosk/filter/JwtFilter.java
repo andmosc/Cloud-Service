@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import ru.AMosk.security.JwtProvider;
+import ru.AMosk.security.JwtToken;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtFilter extends GenericFilterBean {
     private static final String AUTHORIZATION = "Authorization";
-    private final JwtProvider jwtProvider;
+    private final JwtToken jwtProvider;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)

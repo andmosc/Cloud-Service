@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.AMosk.security.dto.AuthRequest;
-import ru.AMosk.security.dto.AuthResponse;
+import ru.AMosk.dto.security.AuthRequest;
+import ru.AMosk.dto.security.AuthResponse;
 import ru.AMosk.services.AuthService;
 
 @RestController

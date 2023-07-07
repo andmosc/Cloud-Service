@@ -1,9 +1,10 @@
-package ru.AMosk.services;
+package ru.AMosk.services.impl;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import ru.AMosk.services.TokenInMemory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

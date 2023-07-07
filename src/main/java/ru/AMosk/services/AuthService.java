@@ -9,9 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.AMosk.exception.AuthException;
-import ru.AMosk.security.JwtProvider;
-import ru.AMosk.security.dto.AuthRequest;
-import ru.AMosk.security.dto.AuthResponse;
+import ru.AMosk.security.JwtToken;
+import ru.AMosk.dto.security.AuthRequest;
+import ru.AMosk.dto.security.AuthResponse;
 
 @Slf4j
 @Service
@@ -19,7 +19,7 @@ import ru.AMosk.security.dto.AuthResponse;
 public class AuthService {
 
     private  final AuthenticationManager authenticationManager;
-    public final JwtProvider jwtProvider;
+    public final JwtToken jwtProvider;
     private final TokenInMemory tokenInMemory;
 
     public AuthResponse login(AuthRequest authRequest) {

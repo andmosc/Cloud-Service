@@ -1,4 +1,4 @@
-package ru.AMosk.security.dto;
+package ru.AMosk.dto.security;
 
 import lombok.Data;
 
