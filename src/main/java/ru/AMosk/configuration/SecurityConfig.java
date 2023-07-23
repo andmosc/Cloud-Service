@@ -3,6 +3,7 @@ package ru.AMosk.configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ru.AMosk.filter.JwtFilter;
+import ru.AMosk.security.JwtFilter;
 import ru.AMosk.services.CustomLogoutHandler;
 
 import javax.sql.DataSource;
@@ -56,15 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors()
                 .and()
-                     .authorizeRequests()
-                     .antMatchers("/login").permitAll()
+                    .logout().addLogoutHandler(logoutHandler)
                 .and()
-                .logout()
-                    .permitAll().addLogoutHandler(logoutHandler)
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-       http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                    .authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
+                .and()
+                    .authorizeRequests().anyRequest().authenticated()
+                .and()
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
