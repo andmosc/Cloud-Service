@@ -15,9 +15,23 @@ services:
     volumes:
       - /opt/psql/dada:/var/lib/postgresql/data
 
+  redis:
+    image: redis:6.0.20-alpine3.18
+    container_name: redisServer
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - ./storage/redis/data:/data
+
   app:
     build: ./
     image: cloud:latest
+#      context: .
+#      dockerfile: Dockerfile
     container_name: cloudService
     ports:
       - "8080:8080"
@@ -29,7 +43,10 @@ services:
       SPRING_LIQUIBASE_URL: jdbc:postgresql://db:5432/cloud
       SPRING_LIQUIBASE_USER: postgres
       SPRING_LIQUIBASE_PASSWORD: 12345678
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     volumes:
       - /app/logs:/app/logs
     depends_on:
       - db
+      - redis
