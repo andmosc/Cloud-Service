@@ -1,16 +1,7 @@
 package ru.AMosk.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.AMosk.entity.Authorities;
-import ru.AMosk.entity.UserCloud;
-import ru.AMosk.repository.UserRepository;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

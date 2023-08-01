@@ -10,7 +10,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @Table(name = "users", schema = "cloud")
-public class UserCloud {
+public class UserEntity {
 
     @Id
     private String email;
