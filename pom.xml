@@ -24,6 +24,7 @@
         <jjwt-jackson.version>0.11.1</jjwt-jackson.version>
         <minio.version>8.5.4</minio.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
+        <assertj-core.version>3.23.1</assertj-core.version>
     </properties>
 
     <dependencies>
@@ -101,6 +102,7 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -123,6 +125,13 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest-all.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
 
