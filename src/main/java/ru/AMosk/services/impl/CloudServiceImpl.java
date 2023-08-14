@@ -2,7 +2,6 @@ package ru.AMosk.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.file.ConfigurationSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.script.DigestUtils;
@@ -48,12 +47,12 @@ public class CloudServiceImpl implements CloudService {
                 throw new UploadException("File is not attached to request", 1);
             }
 
-            if (cloudRepository.findByFilename(multipartFile.getOriginalFilename()).isPresent()) {
+            if (cloudRepository.findByFilename(filename).isPresent()) {
                 log.warn("File with name {} already exist", multipartFile);
-                throw new UploadException("File with name { " + multipartFile.getOriginalFilename() + " } already exist", 1);
+                throw new UploadException("File with name " + filename + " already exist", 1);
             }
 
-            String generateHashId = generateHash(multipartFile.getName());
+            String generateHashId = generateHash(filename);
 
             FileEntity fileEntity = getFileEntity(multipartFile, generateHashId);
 
@@ -110,7 +109,7 @@ public class CloudServiceImpl implements CloudService {
     private FileEntity getEntity(String filename) {
         log.info("get Entity {}", filename);
         return cloudRepository.findByFilename(filename).orElseThrow(() ->
-                new UploadException(String.format("File % not found", filename), 1));
+                new UploadException(String.format("File %s not found", filename), 1));
     }
 
     private static FileEntity getFileEntity(MultipartFile multipartFile, String hashId) {
@@ -123,7 +122,7 @@ public class CloudServiceImpl implements CloudService {
                 .build();
     }
 
-    private String generateHash(String name) {
+    public String generateHash(String name) {
         log.info("Generation hash file");
         return DigestUtils.sha1DigestAsHex(name + LocalDateTime.now());
     }

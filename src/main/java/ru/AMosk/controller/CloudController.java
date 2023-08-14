@@ -25,17 +25,16 @@ public class CloudController {
     }
 
     @PostMapping("/file")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public void uploadFile(@RequestParam String filename, @RequestBody MultipartFile file) {
         cloudService.addFile(filename,file);
     }
 
-    //todo query
     @DeleteMapping("/file")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public void uploadFile(@RequestParam String filename) {
+    public void delFile(@RequestParam String filename) {
         cloudService.delFile(filename);
     }
 

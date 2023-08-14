@@ -42,10 +42,10 @@ services:
       - /minio-data:/minio
 
   app:
-    build: ./
-    image: cloud:latest
-#      context: .
-#      dockerfile: Dockerfile
+    build:
+#    image: cloud:latest
+      context: .
+      dockerfile: Dockerfile
     container_name: cloudService
     ports:
       - "8080:8080"
@@ -61,6 +61,7 @@ services:
       SPRING_REDIS_PORT: 6379
     volumes:
       - /app/logs:/app/logs
+      - /app/storage:/app/storage
     depends_on:
       - db
       - redis

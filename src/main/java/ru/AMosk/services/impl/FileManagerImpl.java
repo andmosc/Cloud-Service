@@ -21,6 +21,9 @@ public class FileManagerImpl implements FileManager {
     @Value("${storage.path}")
     private String storage;
 
+    public void setStorage(String storage) {
+        this.storage = storage;
+    }
     @Override
     public void addFile(byte[] content, String hash) throws IOException {
 
@@ -29,10 +32,11 @@ public class FileManagerImpl implements FileManager {
         }
 
         Path path = Paths.get(storage, hash);
-        Path file = Files.createFile(path);
-
-        try (FileOutputStream stream = new FileOutputStream(file.toString())) {
-            stream.write(content);
+        if (!Files.exists(path)) {
+            Path file = Files.createFile(path);
+            try (FileOutputStream stream = new FileOutputStream(file.toString())) {
+                stream.write(content);
+            }
         }
     }
 
