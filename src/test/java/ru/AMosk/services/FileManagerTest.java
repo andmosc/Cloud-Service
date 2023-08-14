@@ -21,7 +21,7 @@ public class FileManagerTest {
     private FileManagerImpl fileManager;
 
     @BeforeAll
-    void init() throws IOException {
+    void init() {
         fileManager = new FileManagerImpl();
         fileManager.setStorage(PATH_TEST_FILE);
     }
@@ -37,7 +37,7 @@ public class FileManagerTest {
     }
 
     @Test
-    void dellFile_shouldFileFromStorage() throws IOException {
+    void dellFile_shouldDeleteFileFromStorage() throws IOException {
         Path checkFile = Paths.get(PATH_TEST_FILE, HASH_ID);
         Files.createFile(checkFile);
 

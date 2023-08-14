@@ -29,11 +29,12 @@ public class AuthControllerTest {
     public void createAuthenticationToken_returnIsOk() throws Exception {
         this.mockMvc.perform(
                         post("/login")
-                                .content(objectMapper.writeValueAsString(new AuthRequest("user@user.ruq", "user")))
+                                .content(objectMapper.writeValueAsString(new AuthRequest("user@user.ru", "user")))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
     }
+
     @Test
     public void createAuthenticationToken_returnIsBadRequest() throws Exception {
         this.mockMvc.perform(
