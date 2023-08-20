@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ru.AMosk.props.MinioProperties;
 import ru.AMosk.security.JwtFilter;
 import ru.AMosk.services.CustomLogoutHandler;
 
@@ -33,8 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final DataSource dataSource;
     private final JwtFilter jwtFilter;
     private final CustomLogoutHandler logoutHandler;
-
-    private final MinioProperties minioProperties;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -57,14 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Bean
-    public MinioClient minioClient() {
-        return MinioClient.builder()
-                .endpoint(minioProperties.getUrl())
-                .credentials(minioProperties.getAccessKey(),minioProperties.getSecretKey())
-                .build();
     }
 
     @Override
